@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <NavBar />
         <Route exact path="/" component={MainPage} />
-        <Route exact path="/videos/:id" component={DetailedVidePage} />
+        <Route exact path="/videos/:videoId" component={DetailedVidePage} />
       </BrowserRouter>
     </div>
   );

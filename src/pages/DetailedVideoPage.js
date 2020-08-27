@@ -12,8 +12,8 @@ export default function DetailedVideoPage(props) {
   const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { id } = useParams();
-  const url = `${baseUrl}/videos/${id}`;
+  const { videoId } = useParams();
+  const url = `${baseUrl}/videos/${videoId}`;
 
   useEffect(() => {
     console.log('sending get request to ' + url);
@@ -32,7 +32,7 @@ export default function DetailedVideoPage(props) {
   if (!isLoading && video.url !== undefined) {
     content = (
       <div>
-        <p>{id}</p>
+        <p>{videoId}</p>
         <p>{video.name}</p>
 
         <iframe
@@ -46,7 +46,7 @@ export default function DetailedVideoPage(props) {
 
         <RecommendationList recommendations={recommendations} />
         <AddRecommendation
-          videoId={id}
+          videoId={videoId}
           setRecommendations={setRecommendations}
           recommendations={recommendations}
         />
