@@ -8,49 +8,51 @@ import AddRecommendation from '../components/AddRecommendation';
 import { baseUrl } from '../services/Globals';
 
 export default function DetailedVideoPage(props) {
-  const [videoWithRecommendation, setVideoWithRecommendation] = useState([]);
+  const [video, setVideo] = useState([]);
+  const [recommendations, setRecommendations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
-
   const url = `${baseUrl}/videos/${id}`;
 
   useEffect(() => {
-    console.log('sending request to ' + url);
+    console.log('sending get request to ' + url);
     setIsLoading(true);
 
     axios.get(url).then((response) => {
       console.log(response.data);
-      setVideoWithRecommendation(response.data);
+      setVideo(response.data.video);
+      setRecommendations(response.data.recommendations);
       setIsLoading(false);
     });
   }, [url]);
 
   let content = <h3>Loading video...</h3>;
 
-  if (!isLoading && videoWithRecommendation.video !== undefined) {
-    console.log(videoWithRecommendation);
-
-    const { name } = videoWithRecommendation.video;
+  if (!isLoading && video.url !== undefined) {
+    console.log(video);
+    console.log(recommendations);
 
     content = (
       <div>
         <p>{id}</p>
-        <p>{name}</p>
+        <p>{video.name}</p>
 
         <iframe
           title="title"
-          src={videoWithRecommendation.video.url.replace('watch?v=', 'embed/')}
+          src={video.url.replace('watch?v=', 'embed/')}
           scrolling="no"
           frameBorder="0"
         ></iframe>
 
         {/* <ReactPlayer url={videoWithRecommendation.video.url} /> */}
 
-        <RecommendationList
-          recommendations={videoWithRecommendation.recommendations}
+        <RecommendationList recommendations={recommendations} />
+        <AddRecommendation
+          videoId={id}
+          setRecommendations={setRecommendations}
+          recommendations={recommendations}
         />
-        <AddRecommendation videoId={id} />
       </div>
     );
   }

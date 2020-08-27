@@ -12,10 +12,15 @@ export default function AddRecommendation(props) {
     const url = `${baseUrl}/videos/${props.videoId}/recommendations`;
 
     console.log('sending post request to: ' + url);
-    axios.post(url, {
-      comment: newComment,
-      rating: rating,
-    });
+    axios
+      .post(url, {
+        comment: newComment,
+        rating: rating,
+      })
+      .then((response) => {
+        console.log(response.data);
+        props.setRecommendations([...props.recommendations, response.data]);
+      });
   };
 
   return (
