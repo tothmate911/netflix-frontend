@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import ReactPlayer from 'react-player';
+// import ReactPlayer from 'react-player';
+
+import RecommendationList from '../components/RecommendationList';
+import AddRecommendation from '../components/AddRecommendation';
+import { baseUrl } from '../services/Globals';
 
 export default function DetailedVideoPage(props) {
   const [videoWithRecommendation, setVideoWithRecommendation] = useState([]);
@@ -9,7 +13,7 @@ export default function DetailedVideoPage(props) {
 
   const { id } = useParams();
 
-  const url = `http://localhost:8762/video-service/videos/${id}`;
+  const url = `${baseUrl}/videos/${id}`;
 
   useEffect(() => {
     console.log('sending request to ' + url);
@@ -22,18 +26,17 @@ export default function DetailedVideoPage(props) {
     });
   }, [url]);
 
-  const addRecommendation = () => {
-    console.log('add recommendation');
-  };
-
   let content = <h3>Loading video...</h3>;
 
   if (!isLoading && videoWithRecommendation.video !== undefined) {
     console.log(videoWithRecommendation);
+
+    const { name } = videoWithRecommendation.video;
+
     content = (
       <div>
-        <p>{videoWithRecommendation.video.id}</p>
-        <p>{videoWithRecommendation.video.name}</p>
+        <p>{id}</p>
+        <p>{name}</p>
 
         <iframe
           title="title"
@@ -44,8 +47,10 @@ export default function DetailedVideoPage(props) {
 
         {/* <ReactPlayer url={videoWithRecommendation.video.url} /> */}
 
-        <p>{videoWithRecommendation.recommendations}</p>
-        <button onClick={addRecommendation}>Add recommendation</button>
+        <RecommendationList
+          recommendations={videoWithRecommendation.recommendations}
+        />
+        <AddRecommendation videoId={id} />
       </div>
     );
   }
