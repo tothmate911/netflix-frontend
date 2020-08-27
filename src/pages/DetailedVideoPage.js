@@ -30,9 +30,6 @@ export default function DetailedVideoPage(props) {
   let content = <h3>Loading video...</h3>;
 
   if (!isLoading && video.url !== undefined) {
-    console.log(video);
-    console.log(recommendations);
-
     content = (
       <div>
         <p>{id}</p>
