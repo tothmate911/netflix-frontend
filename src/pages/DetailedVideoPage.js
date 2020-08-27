@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router';
+import ReactPlayer from 'react-player';
 
 export default function DetailedVideoPage(props) {
   const [videoWithRecommendation, setVideoWithRecommendation] = useState([]);
@@ -33,7 +34,16 @@ export default function DetailedVideoPage(props) {
       <div>
         <p>{videoWithRecommendation.video.id}</p>
         <p>{videoWithRecommendation.video.name}</p>
-        <p>{videoWithRecommendation.video.url}</p>
+
+        <iframe
+          title="title"
+          src={videoWithRecommendation.video.url.replace('watch?v=', 'embed/')}
+          scrolling="no"
+          frameBorder="0"
+        ></iframe>
+
+        {/* <ReactPlayer url={videoWithRecommendation.video.url} /> */}
+
         <p>{videoWithRecommendation.recommendations}</p>
         <button onClick={addRecommendation}>Add recommendation</button>
       </div>
